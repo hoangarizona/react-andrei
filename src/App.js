@@ -18,9 +18,14 @@ class App extends Component{
           <p>HI {this.state.name} ,{this.state.company}
           </p>
           <button onClick={()=>{
-            this.setState({name: 'Andrei'});
-            console.log(this.state.name);//this will be the old value because the setState run async
-          }}>
+            this.setState((state, props)=>{
+              return {
+                name :'Andrei'
+              }
+            },()=>{console.log(this.state.name)}//this run asyn as the setState but only after setState ran
+            );
+          }}
+        >
             Change name
           </button>
         </header>
