@@ -21,12 +21,23 @@ class App extends Component{
   render(){//run 2nd (2nd life cycle)
     return (
       <div className="App">
+        <input className='search-box' type='search' placeholder='search monsters' onChange={(event)=>{
+          // [{name:}]
+          const searchString = event.target.value.toLocaleLowerCase();
+                const filteredMonsters = this.state.monsters.filter((monster) => { //IMMUTABILITY BECAUSE FILTER CREATE A NEW ONE
+                    return monster.name.toLocaleLowerCase().includes(searchString);
+          });
+          this.setState(()=>{
+            return {monsters: filteredMonsters};
+          })
+        }} />
         {
           this.state.monsters.map(
               (monster)=>{
                 return <div key={monster.id}><h1>{monster.name}</h1></div>
               }
           )
+             
         }
       </div>
     );
