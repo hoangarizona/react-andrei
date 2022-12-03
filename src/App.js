@@ -3,27 +3,22 @@ import './App.css';
 import { Component } from 'react';
 
 class App extends Component{
-  constructor(){
+  constructor(){//run 1st (1st life cycle)
     super();
     this.state = {
-      monsters:[
-        {
-          name: 'Linda',
-          id: '12dfds'
-        },
-        {
-          name: 'Frank',
-          id:'321321'
-        },
-        {
-          name: 'Jacky',
-          id:'2321321'
-        }
-      ]
-     
+      monsters:[],//initial value
     }
   }
-  render(){
+  componentDidMount(){ //run 3rd (3rd life cycle) and move on to render because state changes
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => this.setState(()=>{
+        return {monsters: users}
+      },
+      ()=>{console.log(this.state)}
+      ))
+  }
+  render(){//run 2nd (2nd life cycle)
     return (
       <div className="App">
         {
