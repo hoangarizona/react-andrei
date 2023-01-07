@@ -1,6 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Component } from "react";
+import CardList from './components/card-list/car-list.component'
+import SearchBox from "./components/search-box/search-box.component";
+import './App.css';
 
 class App extends Component {
   constructor() {
@@ -19,9 +22,6 @@ class App extends Component {
         this.setState(
           () => {
             return { monsters: users };
-          },
-          () => {
-            console.log(this.state);
           }
         )
       );
@@ -36,28 +36,18 @@ class App extends Component {
   };
   render() {
     //run 2nd (2nd life cycle)
-
-    const filteredMonsters = this.state.monsters.filter((monster) => {
+    const {monsters, searchField} = this.state;
+    const {onSearchChange} = this;
+    const filteredMonsters = monsters.filter((monster) => {
       //IMMUTABILITY BECAUSE FILTER CREATE A NEW ONE
-      return monster.name.toLocaleLowerCase().includes(this.state.searchField);
+      return monster.name.toLocaleLowerCase().includes(searchField);
     });
 
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="search monsters"
-          onChange={this.onSearchChange}
-        ></input>
-
-        {filteredMonsters.map((monster) => {
-          return (
-            <div key={monster.id}>
-              <h1>{monster.name}</h1>
-            </div>
-          );
-        })}
+        <h1 className="app-title">Monsters Rolodex</h1>
+        <SearchBox className={'monsters-search-box'} onChangeHandler={onSearchChange} placeholder={'search'} />
+        <CardList monsters={filteredMonsters}/>
       </div>
     );
   }
